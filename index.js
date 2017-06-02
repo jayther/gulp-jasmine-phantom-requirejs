@@ -84,13 +84,13 @@ function execPhantom (phantom, childArguments, onComplete) {
         }
 
         if (stderr !== '') {
-            gutil.log('gulp-jasmine-phantom-requirejs: Failed to open test runner ' + gutil.colors.blue(childArguments[1]));
+            gutil.log('gulp-jasmine-phantom-requirejs: Failed to open test runner ' + gutil.colors.blue(childArguments[0]));
             gutil.log(gutil.colors.red('error: '), stderr);
-            success = new gutil.PluginError('gulp-jasmine-phantom-requirejs', 'Failed to open test runner ' + gutil.colors.blue(childArguments[1]));
+            success = new gutil.PluginError('gulp-jasmine-phantom-requirejs', 'Failed to open test runner ' + gutil.colors.blue(childArguments[0]));
         }
 
         if (gulpOptions.specHtml === undefined && (gulpOptions.keepRunner === undefined || gulpOptions.keepRunner === false)) {
-            cleanup(childArguments[1]);
+            cleanup(childArguments[0]);
         }
 
         console.log(stdout);
