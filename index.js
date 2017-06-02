@@ -75,7 +75,7 @@ function hasGlobalPhantom () {
  * @param {array} childArguments Array of options to pass to Phantom
  * @param {function} onComplete Callback function
  */
-function execPhantom (phantom, childArguments, onComplete) {
+function execPhantom (phantom, childArguments, onComplete, specRunner) {
     execFile(phantom, childArguments, function (error, stdout, stderr) {
         var success = null;
 
@@ -90,7 +90,7 @@ function execPhantom (phantom, childArguments, onComplete) {
         }
 
         if (gulpOptions.specHtml === undefined && (gulpOptions.keepRunner === undefined || gulpOptions.keepRunner === false)) {
-            cleanup(childArguments[0]);
+            cleanup(specRunner);
         }
 
         console.log(stdout);
@@ -162,10 +162,10 @@ function runTesting (childArguments, specRunner, onComplete) {
         gutil.log('Jasmine server run on http://localhost:' + serverPort);
     } else {
         if (hasGlobalPhantom()) {
-            execPhantom(phantomExecutable, childArguments, onPhantomComplete);
+            execPhantom(phantomExecutable, childArguments, onPhantomComplete, specRunner);
         } else {
             gutil.log(gutil.colors.yellow('gulp-jasmine-phantom-requirejs: Global Phantom undefined, trying to execute from node_modules/phantomjs'));
-            execPhantom(process.cwd() + '/node_modules/.bin/' + phantomExecutable, childArguments, onPhantomComplete);
+            execPhantom(process.cwd() + '/node_modules/.bin/' + phantomExecutable, childArguments, onPhantomComplete, specRunner);
         }
     }
 }
